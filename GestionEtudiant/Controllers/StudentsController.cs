@@ -29,7 +29,15 @@ namespace GestionEtudiant.Controllers
         {
             
             var user = await _usermanager.GetUserAsync(User);
-            return View(await _context.studentUsers.Where(u => u.Id == user.Id.ToString() ).ToListAsync());
+            if (User.IsInRole("Admin"))
+            {
+                return View(await _context.studentUsers.ToListAsync());
+            }else
+            {
+                return View(await _context.studentUsers.Where(u => u.Id == user.Id.ToString() ).ToListAsync());
+
+            }
+            
 
         }
 
