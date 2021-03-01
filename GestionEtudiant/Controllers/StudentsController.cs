@@ -8,22 +8,29 @@ using Microsoft.EntityFrameworkCore;
 using GestionEtudiant.Data;
 using GestionEtudiant.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace GestionEtudiant.Controllers
 {
     public class StudentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _usermanager;
 
-        public StudentsController(ApplicationDbContext context)
+        public StudentsController(ApplicationDbContext context , UserManager<IdentityUser> usermanager)
         {
             _context = context;
+            _usermanager = usermanager;
         }
 
         // GET: Students
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Student.ToListAsync());
+            
+            var user = await _usermanager.GetUserAsync(User);
+            return View(await _context.studentUsers.Where(u => u.Id == user.Id.ToString() ).ToListAsync());
+
         }
 
         // GET: Students/Details/5

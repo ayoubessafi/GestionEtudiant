@@ -13,7 +13,9 @@ namespace GestionEtudiant.Data
             : base(options)
         {
         }
-        public DbSet<GestionEtudiant.Models.Student> Student { get; set; }
-        public DbSet<GestionEtudiant.Models.Role> Role { get; set; }
+        public DbSet<Student> Student { get; set; }
+        public DbSet<Role> Role { get; set; }
+
+        public DbSet<StudentUser> studentUsers { get; set; }
     }
 }
